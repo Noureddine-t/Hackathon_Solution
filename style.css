@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    height:100%;
+    min-height: 100vh; /* Ajoutez cette propriété */
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    height: 50px;
+}
+
+
+
+header, footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.button-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container {
+    display: none;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-container input, .form-container select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.form-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Styles for the popup */
+.popup-container {
+    max-width: 300px;
+    padding: 10px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.popup-container h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.popup-container p {
+    margin-bottom: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.popup-container strong {
+    color: #333;
+}
+
+#analyseDonnees-form {
+    display: none;
+    text-align: left;
+    max-width: none; /* Remove max-width restriction */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#table-container {
+max-width: 800px;
+margin: 20px auto;
+padding: 20px;
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 10px;
+}
+
+th, td {
+padding: 12px;
+text-align: left;
+border-bottom: 1px solid #ddd;
+}
+
+th {
+background-color: #333;
+color: white;
+}
+.action-icons span {
+cursor: pointer;
+font-size: 20px;
+margin-right: 10px;
+}
+
+.delete-icon {
+color: red;
+}
+
+.edit-icon {
+color: green;
+}
