@@ -71,6 +71,9 @@
         <label for="dateInstallation">Date d'installation:</label>
         <input type="date" id="dateInstallation" name="dateInstallation" required>
 
+        <label for="prix">Prix:</label>
+        <input type="number" step="0.01" id="prix" name="prix" step="0.01" required>
+
         <label for="fabriquant">Fabriquant:</label>
         <input type="text" id="fabriquant" name="fabriquant" required>
 
@@ -90,7 +93,8 @@
         <select id="typeDeDonnee" name="typeDeDonnee">
             <option value="Alerte">Alerte</option>
             <option value="Consigne">Consigne</option>
-            <option value="plageHoraire">Plage horaire</option>
+            <option value="Alerte">Compteur</option>
+            <option value="plageHoraire">Plage horaire de fonctionnement</option>
             <option value="Température">Température</option>
         </select>
 
@@ -135,7 +139,7 @@ if (isset($_POST['AjouterBatiment'])) {
     $result = $idcon->query($insertSQL);
 
     if ($result) {
-        echo "<script type=\"text/javascript\"> alert('Livre enregistré '); 
+        echo "<script type=\"text/javascript\"> alert('batiment enregistré avec succes'); 
     window.location.href = \"http://localhost/IoT_c/index.php\";
            </script>";
     } else {
@@ -157,15 +161,16 @@ if (isset($_POST['AjouterCapteur'])) {
     $type_donnee = $_POST['typeDeDonnee'];
     $categorie = $_POST['categorieCapteur'];
     $protocol_communication = $_POST['protocoleCommunication'];
+    $prix=$_POST['prix'];
 
-    $insertSQL = "INSERT INTO `module`(`id_capteur`, `date_installation`, `fabricant`, `marque`, `etage`,`type_energie`, `type_donnee`,`categorie`, `protocol_communication`) 
-         VALUES ('$id_capteur' , '$date_installation' , '$fabricant' , '$marque' , '$etage', '$typeEnergie' , '$type_donnee' , '$categorie' , '$protocol_communication')";
+    $insertSQL = "INSERT INTO `module`(`id_capteur`, `date_installation`, `fabricant`, `marque`, `etage`,`type_energie`, `type_donnee`,`categorie`, `protocol_communication`, `prix`) 
+         VALUES ('$id_capteur' , '$date_installation' , '$fabricant' , '$marque' , '$etage', '$typeEnergie' , '$type_donnee' , '$categorie' , '$protocol_communication', '$prix')";
 
 
     $result = $idcon->query($insertSQL);
 
     if ($result) {
-        echo "<script type=\"text/javascript\"> alert('Livre enregistré '); 
+        echo "<script type=\"text/javascript\"> alert('capteur enregistré avec succes'); 
     window.location.href = \"http://localhost/IoT_c/index.php\";
            </script>";
     } else {
@@ -176,3 +181,4 @@ if (isset($_POST['AjouterCapteur'])) {
     $idcon->close();
 }
 ?>
+
