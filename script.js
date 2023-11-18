@@ -64,45 +64,39 @@ if (confirmDelete) {
 }
 
 function showAllBuildings() {
-    // Get the container where the table will be displayed
     var tableContainer = document.getElementById('table-container');
 
-    // If the container does not exist, create it
-    if (!tableContainer) {
-        tableContainer = document.createElement('div');
-        tableContainer.id = 'table-container';
-        document.body.appendChild(tableContainer);
-    }
+    // Requête AJAX pour récupérer les données depuis le script PHP
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var buildingsData = JSON.parse(xhr.responseText);
+            generateTable(tableContainer, buildingsData);
+        }
+    };
 
+    xhr.open('GET', 'gererBatiment.php', true);
+    xhr.send();
+}
+
+function generateTable(tableContainer, buildingsData) {
     // Generate the table HTML
     var tableHTML = '<h2>Liste de tous les bâtiments</h2><table border="1"><tr><th>Nom</th><th>Coordonnées GPS</th><th>Superficie</th><th>Date de construction</th><th>Type de bâtiment</th><th>Action</th></tr>';
 
-    // Sample data for buildings (replace this with your actual data)
-    var buildingsData = [
-        { name: 'Batiment1', coordinates: '48.8606, 2.3376', superficie: 200, dateConstruction: '2020-01-01', typeBatiment: 'Résidence' },
-        { name: 'Batiment2', coordinates: '48.8647, 2.3490', superficie: 150, dateConstruction: '2019-05-15', typeBatiment: 'Commercial' },
-        // Add more buildings as needed
-    ];
-
-    // Loop through the buildings data and add rows to the table
-    // Loop through the buildings data and add rows to the table
     // Loop through the buildings data and add rows to the table
     buildingsData.forEach(function (building) {
         tableHTML += '<tr>';
-        tableHTML += `<td>${building.name}</td>`;
-        tableHTML += `<td>${building.coordinates}</td>`;
+        tableHTML += `<td>${building.nom}</td>`; // Assuming the property is 'nom' instead of 'name'
+        tableHTML += `<td>${building.coordonnees_GPS}</td>`;
         tableHTML += `<td>${building.superficie}</td>`;
-        tableHTML += `<td>${building.dateConstruction}</td>`;
-        tableHTML += `<td>${building.typeBatiment}</td>`;
-
-
+        tableHTML += `<td>${building.date_construction}</td>`;
+        tableHTML += `<td>${building.type_batiment}</td>`;
 
         // Nouvelle colonne "Action" avec des icônes de suppression et de modification
         tableHTML += '<td class="action-icons">';
-        tableHTML += `<span class="delete-icon" onclick="confirmDeleteBuilding('${building.name}')">❌</span>`;
-        tableHTML += `<span class="edit-icon" onclick="editBuilding('${building.name}')">&#x270E;</span>`;
+        tableHTML += `<span class="delete-icon" onclick="confirmDeleteBuilding('${building.nom}')">❌</span>`;
+        tableHTML += `<span class="edit-icon" onclick="editBuilding('${building.nom}')">&#x270E;</span>`;
         tableHTML += '</td>';
-
 
         tableHTML += '</tr>';
     });
@@ -116,6 +110,7 @@ function showAllBuildings() {
     // Show the table container
     tableContainer.style.display = 'block';
 }
+
 
 function hideTable() {
     var tableContainer = document.getElementById('table-container');
