@@ -38,7 +38,12 @@ function initializeMap() {
             { name: 'Batiment 2', coordinates: [48.8647, 2.3490], sensors: 8, constructionDate: '2019-05-15', buildingType: 'Commercial' },
             { name: 'Batiment 3', coordinates: [48.8534, 2.3488], sensors: 12, constructionDate: '2022-03-20', buildingType: 'Industriel' },
             { name: 'Batiment 4', coordinates: [48.8600, 2.3434], sensors: 15, constructionDate: '2018-11-10', buildingType: 'Résidence' },
-            { name: 'Batiment 5', coordinates: [48.8572, 2.3517], sensors: 7, constructionDate: '2021-09-05', buildingType: 'Commercial' }
+            { name: 'Batiment 5', coordinates: [48.8572, 2.3517], sensors: 7, constructionDate: '2021-09-05', buildingType: 'Commercial' },
+            { name: 'Batiment 6', coordinates: [48.8650, 2.3300], sensors: 10, constructionDate: '2022-05-20', buildingType: 'Résidence' },
+            { name: 'Batiment 7', coordinates: [48.8550, 2.3400], sensors: 8, constructionDate: '2020-08-12', buildingType: 'Commercial' },
+            { name: 'Batiment 8', coordinates: [48.8500, 2.3600], sensors: 12, constructionDate: '2019-12-15', buildingType: 'Industriel' },
+            { name: 'Batiment 9', coordinates: [48.8700, 2.3550], sensors: 15, constructionDate: '2021-01-30', buildingType: 'Résidence' },
+            { name: 'Batiment 10', coordinates: [48.8450, 2.3250], sensors: 7, constructionDate: '2023-02-10', buildingType: 'Commercial' }
         ];
 
         buildings.forEach(function(building) {
@@ -54,6 +59,7 @@ function initializeMap() {
         });
     }
 }
+
 
 function confirmDeleteBuilding(buildingName) {
     var confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce bâtiment ?");

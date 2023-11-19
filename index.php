@@ -4,111 +4,41 @@
 <?php include 'connect.php' ; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div id="logo-container">
-        <img src="image/urbanPracticeLogo.png" alt="Logo de l'entreprise" id="logo">
-    </div>
+  
     <title>IOT-C</title>
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <style>
             <?php include 'style.css'; ?>
-       </style>
-   
+    </style>
+
 </head>
 <body>
- <!-- Include Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<body>
+<div id="logo-container">
+        <img src="image/UrbanPracticeLogo.png" alt="Logo de l'entreprise" id="logo">
+    </div>
 <header>
+
     <h1>IOT-C</h1>
 </header>
-
+    
 <div class="button-container">
 
     <button class="button" onclick="toggleForm('ajoutBatiment')">Ajout de bâtiment</button>
     <button class="button" onclick="toggleForm('ajoutCapteur')">Ajout de capteur</button>
     <button class="button" onclick="toggleForm('analyseDonnees')">Analyse des données</button>
     <button class="button" onclick="showAllBuildings()">Voir tous les bâtiments</button>
+    <button class="button" onclick=" showModuleEvolutionGraph()">Détails des capteurs</button>
+
 </div>
 
 <div id="ajoutBatiment-form" class="form-container">
-    <h2>Formulaire d'ajout de bâtiment</h2>
-    <form id="consultation-form" class="feed-form" method="POST" >
-        <label for="nomBatiment">Nom du bâtiment:</label>
-        <input type="text" id="nomBatiment" name="nomBatiment" required>
-
-        <label for="adresseBatiment">Adresse (Coordonnées GPS):</label>
-        <input type="text" id="adresseBatiment" name="adresseBatiment" required>
-
-        <label for="superficie">Superficie (m²):</label>
-        <input type="number" id="superficie" name="superficie" required>
-
-        <label for="typeBatiment">Type de bâtiment:</label>
-        <select id="typeBatiment" name="typeBatiment">
-            <option value="residence">Résidence</option>
-            <option value="commercial">Commercial</option>
-            <option value="industriel">Industriel</option>
-        </select>
-
-        <label for="dateConstruction">Date de construction:</label>
-        <input type="date" id="dateConstruction" name="dateConstruction" required>
-
-        <button type="submit" name="AjouterBatiment">Ajouter Bâtiment</button>
-    </form>
+    <?php include 'ajoutBatimentForm.php'; ?>
 </div>
 
 <div id="ajoutCapteur-form" class="form-container">
-    <h2>Formulaire d'ajout de capteur</h2>
-    <form id="consultation-form" class="feed-form" method="POST" >
-        <label for="idCapteur">ID du capteur:</label>
-        <input type="text" id="idCapteur" name="idCapteur" required>
-
-        <label for="typeEnergie">Type d'énergie captée:</label>
-        <select id="typeEnergie" name="typeEnergie">
-            <option value="Eau">Eau</option>
-            <option value="Gaz">Gaz</option>
-            <option value="Eléctricité">Eléctricité</option>
-        </select>
-
-        <label for="dateInstallation">Date d'installation:</label>
-        <input type="date" id="dateInstallation" name="dateInstallation" required>
-
-        <label for="prix">Prix:</label>
-        <input type="number" step="0.01" id="prix" name="prix" step="0.01" required>
-
-        <label for="fabriquant">Fabriquant:</label>
-        <input type="text" id="fabriquant" name="fabriquant" required>
-
-        <label for="marque">marque:</label>
-        <input type="text" id="marque" name="marque" required>
-
-        <label for="protocoleCommunication">Protocole de communication:</label>
-        <input type="text" id="protocoleCommunication" name="protocoleCommunication" required>
-
-        <label for="categorieCapteur">Catégorie de module:</label>
-        <select id="categorieCapteur" name="categorieCapteur">
-            <option value="actionneur">Actionneur</option>
-            <option value="passerelle">Passerelle</option>
-            <option value="passerelle">Capteur</option>
-        </select>
-        <label for="typeDeDonnee">Type de données:</label>
-        <select id="typeDeDonnee" name="typeDeDonnee">
-            <option value="Alerte">Alerte</option>
-            <option value="Consigne">Consigne</option>
-            <option value="Alerte">Compteur</option>
-            <option value="plageHoraire">Plage horaire de fonctionnement</option>
-            <option value="Température">Température</option>
-        </select>
-
-        <label for="batiment">batiment:</label>
-        <input type="text" id="batiment" name="batiment" required>
-
-        <label for="etage">Etage:</label>
-        <input type="text" id="etage" name="etage" required>
-
-        <button type="submit" name="AjouterCapteur">Ajouter Capteur</button>
-    </form>
+    <?php include 'ajoutCapteurForm.php'; ?>
 </div>
 <div id="table-container" style="display: none;">
     <!-- La table de tous les bâtiments sera insérée ici à l'aide de JavaScript -->
@@ -120,6 +50,179 @@
     <!-- Leaflet map container -->
     <div id="map" style="height: 600px;"></div>
 </div>
+
+
+<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+<div id="chartContainerTotal" style="height: 400px; width: 100%;"></div>
+<div id="chartContainerTotalEnergie" style="height: 400px; width: 100%;"></div>
+
+
+
+<script>
+function showModuleEvolutionGraph() {
+    <?php
+$sql = "SELECT DATE_FORMAT(date_installation, '%Y-%m-%d') as formatted_date, 
+        COUNT(*) as total_modules,
+        SUM(COUNT(*)) OVER (ORDER BY DATE_FORMAT(date_installation, '%Y-%m-%d')) AS cumulative_total
+        FROM Module
+        GROUP BY formatted_date
+        ORDER BY formatted_date";
+
+$result = $idcon->query($sql);
+
+$dataPoints = array();
+$dataPointsTotal = array();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $dataPoints[] = array("y" => intval($row['total_modules']), "label" => $row['formatted_date']);
+        $dataPointsTotal[] = array("y" => intval($row['cumulative_total']), "label" => $row['formatted_date']);
+    }
+}
+
+// Nouvelles requêtes SQL pour chaque type d'énergie
+$sqlEau = "SELECT
+                DATE_FORMAT(date_installation, '%Y-%m-%d') as formatted_date, 
+                COUNT(*) as total_modules,
+                SUM(COUNT(*)) OVER (ORDER BY DATE_FORMAT(date_installation, '%Y-%m-%d')) AS cumulative_total
+            FROM Module, (SELECT @cumulative_total := 0) as cumul
+            WHERE type_energie = 'eau'
+            GROUP BY formatted_date
+            ORDER BY formatted_date";
+
+$resultEau = $idcon->query($sqlEau);
+
+$dataPointsEau = array();
+
+if ($resultEau->num_rows > 0) {
+    while ($row = $resultEau->fetch_assoc()) {
+        $dataPointsEau[] = array("y" => intval($row['cumulative_total']), "label" => $row['formatted_date']);
+    }
+}
+
+$sqlElectricite = "SELECT
+                    DATE_FORMAT(date_installation, '%Y-%m-%d') as formatted_date, 
+                    COUNT(*) as total_modules,
+                    SUM(COUNT(*)) OVER (ORDER BY DATE_FORMAT(date_installation, '%Y-%m-%d')) AS cumulative_total
+                FROM Module, (SELECT @cumulative_total := 0) as cumul
+                WHERE type_energie = 'electricité'
+                GROUP BY formatted_date
+                ORDER BY formatted_date";
+
+$resultElectricite = $idcon->query($sqlElectricite);
+
+$dataPointsElectricite = array();
+
+if ($resultElectricite->num_rows > 0) {
+    while ($row = $resultElectricite->fetch_assoc()) {
+        $dataPointsElectricite[] = array("y" => intval($row['cumulative_total']), "label" => $row['formatted_date']);
+    }
+}
+
+$sqlGaz = "SELECT
+                DATE_FORMAT(date_installation, '%Y-%m-%d') as formatted_date, 
+                COUNT(*) as total_modules,
+                SUM(COUNT(*)) OVER (ORDER BY DATE_FORMAT(date_installation, '%Y-%m-%d')) AS cumulative_total
+            FROM Module, (SELECT @cumulative_total := 0) as cumul
+            WHERE type_energie = 'gaz'
+            GROUP BY formatted_date
+            ORDER BY formatted_date";
+
+$resultGaz = $idcon->query($sqlGaz);
+
+$dataPointsGaz = array();
+
+if ($resultGaz->num_rows > 0) {
+    while ($row = $resultGaz->fetch_assoc()) {
+        $dataPointsGaz[] = array("y" => intval($row['cumulative_total']), "label" => $row['formatted_date']);
+    }
+}
+?>
+
+// Utiliser CanvasJS pour afficher les graphiques
+var chart = new CanvasJS.Chart("chartContainer", {
+    title: {
+        text: "Évolution du nombre de capteurs installés pour chaque date"
+    },
+    axisY: {
+        title: "Nombre total de capteur"
+    },
+    axisX: {
+        title: "Date d'installation"
+    },
+    data: [{
+        type: "line",
+        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+    }]
+});
+
+chart.render();
+
+var chartTotal = new CanvasJS.Chart("chartContainerTotal", {
+    title: {
+        text: "Nombre total de capteurs installés pour chaque date (Somme cumulative)"
+    },
+    axisY: {
+        title: "Nombre total de capteurs"
+    },
+    axisX: {
+        title: "Date d'installation"
+    },
+    data: [{
+        type: "line",
+        dataPoints: <?php echo json_encode($dataPointsTotal, JSON_NUMERIC_CHECK); ?>
+    }]
+});
+
+chartTotal.render();
+
+// Troisième graphe avec les données des types d'énergie
+var chartTotalEnergie = new CanvasJS.Chart("chartContainerTotalEnergie", {
+    title: {
+        text: "Évolution du nombre total de capteurs installés pour chaque date (Somme cumulative par type d'énergie)"
+    },
+    axisY: {
+        title: "Nombre total de capteurs"
+    },
+    axisX: {
+        title: "Date d'installation"
+    },
+    data: [
+        {
+            type: "line",
+            color: "blue", // Couleur pour l'eau
+            name: "Eau",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPointsEau, JSON_NUMERIC_CHECK); ?>
+        },
+        {
+            type: "line",
+            color: "red", // Couleur pour l'électricité
+            name: "Électricité",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPointsElectricite, JSON_NUMERIC_CHECK); ?>
+        },
+        {
+            type: "line",
+            color: "green", // Couleur pour le gaz
+            name: "Gaz",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPointsGaz, JSON_NUMERIC_CHECK); ?>
+        }
+        // Ajoutez les configurations pour les autres types d'énergie
+        // ...
+    ]
+});
+
+chartTotalEnergie.render();
+
+    
+}
+
+
+
+// ... (votre script existant)
+</script>
 
 <footer>
     <p>&copy; 2023 IOT-C. Tous droits réservés.</p>
@@ -188,4 +291,3 @@ if (isset($_POST['AjouterCapteur'])) {
     $idcon->close();
 }
 ?>
-
