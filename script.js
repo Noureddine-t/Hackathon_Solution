@@ -81,21 +81,24 @@ function showAllBuildings() {
 
 function generateTable(tableContainer, buildingsData) {
     // Generate the table HTML
-    var tableHTML = '<h2>Liste de tous les bâtiments</h2><table border="1"><tr><th>Nom</th><th>Coordonnées GPS</th><th>Superficie</th><th>Date de construction</th><th>Type de bâtiment</th><th>Action</th></tr>';
+    var tableHTML = '<h2>Liste de tous les bâtiments</h2><table border="1"><tr><th>Nom</th><th>Coordonnées GPS</th><th>Superficie</th><th>Date de construction</th><th>Type de bâtiment</th><th>Nombre de capteurs</th><th>Prix des capteurs</th><th>Action</th></tr>';
 
     // Loop through the buildings data and add rows to the table
     buildingsData.forEach(function (building) {
         tableHTML += '<tr>';
-        tableHTML += `<td>${building.nom}</td>`; // Assuming the property is 'nom' instead of 'name'
+        tableHTML += `<td>${building.nom_batiment}</td>`; // Change 'nom' to 'nom_batiment'
         tableHTML += `<td>${building.coordonnees_GPS}</td>`;
         tableHTML += `<td>${building.superficie}</td>`;
         tableHTML += `<td>${building.date_construction}</td>`;
         tableHTML += `<td>${building.type_batiment}</td>`;
+        tableHTML += `<td>${building.nombre_capteur}</td>`; // Add the new column for 'Nombre de capteurs'
+        tableHTML += `<td>${building.prix_capteurs}</td>`; // Add the new column for 'Prix des capteurs'
 
-        // Nouvelle colonne "Action" avec des icônes de suppression et de modification
+        // The rest of the columns remain the same
+
         tableHTML += '<td class="action-icons">';
-        tableHTML += `<span class="delete-icon" onclick="confirmDeleteBuilding('${building.nom}')">❌</span>`;
-        tableHTML += `<span class="edit-icon" onclick="editBuilding('${building.nom}')">&#x270E;</span>`;
+        tableHTML += `<span class="delete-icon" onclick="confirmDeleteBuilding('${building.nom_batiment}')">❌</span>`;
+        tableHTML += `<span class="edit-icon" onclick="editBuilding('${building.nom_batiment}')">&#x270E;</span>`;
         tableHTML += '</td>';
 
         tableHTML += '</tr>';

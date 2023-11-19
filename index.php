@@ -98,6 +98,9 @@
             <option value="Température">Température</option>
         </select>
 
+        <label for="batiment">batiment:</label>
+        <input type="text" id="batiment" name="batiment" required>
+
         <label for="etage">Etage:</label>
         <input type="text" id="etage" name="etage" required>
 
@@ -132,7 +135,7 @@ if (isset($_POST['AjouterBatiment'])) {
     $Type = $_POST['typeBatiment'];
 
 
-    $insertSQL = "INSERT INTO `batiment`(`nom`, `coordonnees_GPS`, `superficie`, `date_construction`, `type_batiment`) 
+    $insertSQL = "INSERT INTO `batiment`(`nom_batiment`, `coordonnees_GPS`, `superficie`, `date_construction`, `type_batiment`) 
               VALUES ('$NomBat' , '$Coordonnees' , '$Superficie' , '$Date' , '$Type')";
 
 
@@ -162,9 +165,10 @@ if (isset($_POST['AjouterCapteur'])) {
     $categorie = $_POST['categorieCapteur'];
     $protocol_communication = $_POST['protocoleCommunication'];
     $prix=$_POST['prix'];
+    $batiment=$_POST['batiment'];
 
-    $insertSQL = "INSERT INTO `module`(`id_capteur`, `date_installation`, `fabricant`, `marque`, `etage`,`type_energie`, `type_donnee`,`categorie`, `protocol_communication`, `prix`) 
-         VALUES ('$id_capteur' , '$date_installation' , '$fabricant' , '$marque' , '$etage', '$typeEnergie' , '$type_donnee' , '$categorie' , '$protocol_communication', '$prix')";
+    $insertSQL = "INSERT INTO `module`(`id_capteur`, `nom_batiment`,`date_installation`, `fabricant`, `marque`, `etage`,`type_energie`, `type_donnee`,`categorie`, `protocol_communication`, `prix`) 
+         VALUES ('$id_capteur','$batiment' , '$date_installation' , '$fabricant' , '$marque' , '$etage', '$typeEnergie' , '$type_donnee' , '$categorie' , '$protocol_communication', '$prix')";
 
 
     $result = $idcon->query($insertSQL);
