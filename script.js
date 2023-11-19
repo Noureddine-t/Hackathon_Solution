@@ -54,14 +54,39 @@ function initializeMap() {
         });
     }
 }
+
 function confirmDeleteBuilding(buildingName) {
-var confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce bâtiment ?");
-if (confirmDelete) {
-    // Si l'utilisateur clique sur OK, appelez la fonction de suppression du bâtiment
-    deleteBuilding(buildingName);
+    var confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce bâtiment ?");
+    if (confirmDelete) {
+        // Si l'utilisateur clique sur OK, appelez la fonction de suppression du bâtiment
+        deleteBuilding(buildingName);
+    }
+    // Sinon, ne faites rien (annulation de la suppression)
 }
-// Sinon, ne faites rien (annulation de la suppression)
+
+function deleteBuilding(buildingName) {
+    // Requête AJAX pour supprimer le bâtiment
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Actualisez la table après la suppression réussie
+                    showAllBuildings();
+                } else {
+                    alert('Erreur : ' + response.error);
+                }
+            } else {
+                alert('Erreur de la requête AJAX');
+            }
+        }
+    };
+
+    xhr.open('GET', 'supprimerBatiment.php?nom_batiment=' + encodeURIComponent(buildingName), true);
+    xhr.send();
 }
+
 
 function showAllBuildings() {
     var tableContainer = document.getElementById('table-container');
@@ -104,6 +129,18 @@ function generateTable(tableContainer, buildingsData) {
         tableHTML += '</tr>';
     });
 
+    // Calculate the total number of sensors and total price
+    var totalSensors = buildingsData.reduce((acc, building) => acc + parseInt(building.nombre_capteur), 0);
+    var totalPrice = buildingsData.reduce((acc, building) => acc + parseFloat(building.prix_capteurs), 0);
+
+    // Add a new row for total sensors and total price
+    tableHTML += '<tr>';
+    tableHTML += '<td colspan="5"><strong>Total</strong></td>';
+    tableHTML += `<td>${totalSensors}</td>`;
+    tableHTML += `<td>${totalPrice.toFixed(2)}</td>`;
+    tableHTML += '<td></td>'; // Empty cell for action icons
+    tableHTML += '</tr>';
+
     // Close the table HTML
     tableHTML += '</table>';
 
@@ -113,6 +150,7 @@ function generateTable(tableContainer, buildingsData) {
     // Show the table container
     tableContainer.style.display = 'block';
 }
+
 
 
 function hideTable() {
