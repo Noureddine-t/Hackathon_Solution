@@ -147,3 +147,16 @@ color: red;
 .edit-icon {
 color: green;
 }
+
+/* style.css */
+#logo-container {
+    position: relative; /* Position relative pour permettre un positionnement absolu à l'intérieur */
+}
+
+#logo {
+    max-width: 150px; /* Ajustez la taille du logo selon vos besoins */
+    position: absolute;
+    top: 10px; /* Ajustez la position verticale selon vos besoins */
+    left: 10px; /* Ajustez la position horizontale selon vos besoins */
+  
+}

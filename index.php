@@ -4,6 +4,9 @@
 <?php include 'connect.php' ; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div id="logo-container">
+        <img src="image/urbanPracticeLogo.png" alt="Logo de l'entreprise" id="logo">
+    </div>
     <title>IOT-C</title>
     <!-- Include Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
