@@ -10,16 +10,16 @@ VALUES
 -- Ajout de capteurs dans les bâtiments
 INSERT INTO Module (date_installation, fabricant, marque, etage, type_energie, type_donnee, categorie, protocol_communication, prix, nom_batiment)
 VALUES
-    ('2020-02-01', 'CapteurTech', 'ModèleA', 1, 'Eau', 'Température', 'Capteur', 'LoRanWan', 100, ‘Bâtiment A’),
-    ('2019-06-01', 'SensorCo', 'ModèleB', 2, 'Électricité', 'Alerte', 'Actionneur', 'IP', 150, ‘Bâtiment B’),
-    ('2022-02-15', 'IoTInnov', 'ModèleC', 3, 'Gaz', 'Plage horaire', 'Passerelle', 'LoRanWan', 120, ‘Bâtiment D’),
-    ('2018-11-15', 'TechSensors', 'ModèleD', 1, 'Eau', 'Compteur', 'Capteur', 'LoRanWan', 80, ‘Bâtiment C’),
-    ('2021-10-01', 'SmartDevices', 'ModèleE', 2, 'Électricité', 'Consigne', 'Actionneur', 'IP', 200, ‘Bâtiment C’),
-    ('2020-03-10', 'ConnectIoT', 'ModèleF', 3, 'Gaz', 'Température', 'Capteur', 'LoRanWan', 130, ‘Bâtiment E’),
-    ('2019-01-20', 'TechInnovate', 'ModèleG', 2, 'Électricité', 'Alerte', 'Passerelle', 'IP', 180,‘Bâtiment E’),
-    ('2022-04-05', 'InnoSensors', 'ModèleH', 1, 'Eau', 'Consigne', 'Actionneur', 'LoRanWan', 160, ‘Bâtiment C’),
-    ('2018-12-01', 'FutureTech', 'ModèleI', 3, 'Gaz', 'Plage horaire', 'Capteur', 'LoRanWan', 90, ‘Bâtiment A’),
-    ('2021-11-20', 'SensorsPlus', 'ModèleJ', 2, 'Électricité', 'Température', 'Actionneur', 'IP', 220, ‘Bâtiment E’);
+    ('2020-02-01', 'CapteurTech', 'ModèleA', 1, 'Eau', 'Température', 'Capteur', 'LoRanWan', 100, 'Bâtiment A'),
+    ('2019-06-01', 'SensorCo', 'ModèleB', 2, 'Électricité', 'Alerte', 'Actionneur', 'IP', 150, 'Bâtiment B'),
+    ('2022-02-15', 'IoTInnov', 'ModèleC', 3, 'Gaz', 'Plage horaire', 'Passerelle', 'LoRanWan', 120, 'Bâtiment D'),
+    ('2018-11-15', 'TechSensors', 'ModèleD', 1, 'Eau', 'Compteur', 'Capteur', 'LoRanWan', 80, 'Bâtiment C'),
+    ('2021-10-01', 'SmartDevices', 'ModèleE', 2, 'Électricité', 'Consigne', 'Actionneur', 'IP', 200, 'Bâtiment C'),
+    ('2020-03-10', 'ConnectIoT', 'ModèleF', 3, 'Gaz', 'Température', 'Capteur', 'LoRanWan', 130, 'Bâtiment E'),
+    ('2019-01-20', 'TechInnovate', 'ModèleG', 2, 'Électricité', 'Alerte', 'Passerelle', 'IP', 180,'Bâtiment E'),
+    ('2022-04-05', 'InnoSensors', 'ModèleH', 1, 'Eau', 'Consigne', 'Actionneur', 'LoRanWan', 160, 'Bâtiment C'),
+    ('2018-12-01', 'FutureTech', 'ModèleI', 3, 'Gaz', 'Plage horaire', 'Capteur', 'LoRanWan', 90, 'Bâtiment A'),
+    ('2021-11-20', 'SensorsPlus', 'ModèleJ', 2, 'Électricité', 'Température', 'Actionneur', 'IP', 220, 'Bâtiment E');
 
     -- Ajout de nouveaux bâtiments
 INSERT INTO Batiment (nom_batiment, coordonnees_GPS, superficie, date_construction, type_batiment)
